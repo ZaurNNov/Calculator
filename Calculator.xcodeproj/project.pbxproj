@@ -54,14 +54,22 @@
 		CE4899051F86183C00C7028F /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
-				CE4899061F86183C00C7028F /* AppDelegate.swift */,
 				CE4899081F86183C00C7028F /* ViewController.swift */,
 				CE48990A1F86183C00C7028F /* Main.storyboard */,
+				CE4899121F86183C00C7028F /* Info.plist */,
+				CE4899061F86183C00C7028F /* AppDelegate.swift */,
 				CE48990D1F86183C00C7028F /* Assets.xcassets */,
 				CE48990F1F86183C00C7028F /* LaunchScreen.storyboard */,
-				CE4899121F86183C00C7028F /* Info.plist */,
+				CE4899181F8618ED00C7028F /* Supporting Files */,
 			);
 			path = Calculator;
+			sourceTree = "<group>";
+		};
+		CE4899181F8618ED00C7028F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,6 +285,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T6KH9QMZY4;
 				INFOPLIST_FILE = Calculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mera.zaur.cs193p.Calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -292,6 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T6KH9QMZY4;
 				INFOPLIST_FILE = Calculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mera.zaur.cs193p.Calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
