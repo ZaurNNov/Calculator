@@ -12,6 +12,7 @@
 		CE48990C1F86183C00C7028F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE48990A1F86183C00C7028F /* Main.storyboard */; };
 		CE48990E1F86183C00C7028F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE48990D1F86183C00C7028F /* Assets.xcassets */; };
 		CE4899111F86183C00C7028F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE48990F1F86183C00C7028F /* LaunchScreen.storyboard */; };
+		CE48991A1F864F4F00C7028F /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4899191F864F4E00C7028F /* CalculatorBrain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		CE48990D1F86183C00C7028F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE4899101F86183C00C7028F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE4899121F86183C00C7028F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE4899191F864F4E00C7028F /* CalculatorBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				CE4899081F86183C00C7028F /* ViewController.swift */,
 				CE48990A1F86183C00C7028F /* Main.storyboard */,
+				CE4899191F864F4E00C7028F /* CalculatorBrain.swift */,
 				CE4899121F86183C00C7028F /* Info.plist */,
 				CE4899061F86183C00C7028F /* AppDelegate.swift */,
 				CE48990D1F86183C00C7028F /* Assets.xcassets */,
@@ -144,6 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE48991A1F864F4F00C7028F /* CalculatorBrain.swift in Sources */,
 				CE4899091F86183C00C7028F /* ViewController.swift in Sources */,
 				CE4899071F86183C00C7028F /* AppDelegate.swift in Sources */,
 			);
