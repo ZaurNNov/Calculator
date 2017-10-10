@@ -405,6 +405,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="descriptionDisplay" destination="AqW-tH-D2F" id="K6o-eR-Iyg"/>
                         <outlet property="display" destination="oKr-ae-fqs" id="deC-oY-0Di"/>
                     </connections>
                 </viewController>

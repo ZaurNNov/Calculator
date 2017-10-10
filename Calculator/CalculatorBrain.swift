@@ -12,6 +12,7 @@ import Foundation
 struct CalculatorBrain {
     
     private var accumulator: Double?
+    private var pendingBinaryOperation : PendingBinaryOperation?
     
     private enum Operation {
         case constant(Double)
@@ -24,7 +25,12 @@ struct CalculatorBrain {
         "π" : Operation.constant(Double.pi),
         "e" : Operation.constant(M_E),
         "√" : Operation.unaryOperation(sqrt),
+        //"%" : Operation.unaryOperation(empty),
+        //"Rand" : empty
         "cos" : Operation.unaryOperation(cos),
+        "sin" : Operation.unaryOperation(sin),
+        "tan" : Operation.unaryOperation(tan),
+        "ln" : Operation.unaryOperation(log),
         "±" : Operation.unaryOperation({ -$0 }),
         "×" : Operation.binaryOperations({ $0 * $1 }),
         "÷" : Operation.binaryOperations({ $0 / $1 }),
@@ -60,8 +66,6 @@ struct CalculatorBrain {
             pendingBinaryOperation = nil
         }
     }
-    
-    private var pendingBinaryOperation : PendingBinaryOperation?
     
     private struct PendingBinaryOperation {
         let function: (Double, Double) -> Double
