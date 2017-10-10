@@ -27,7 +27,7 @@ struct CalculatorBrain {
             if pendingBinaryOperation == nil {
                 return cashe.descriptionAccumulator
             } else {
-                return pendingBinaryOperation!.descriptionFunc(
+                return pendingBinaryOperation!.descriptionFunction(
                     pendingBinaryOperation!.descriptionOperand,
                     cashe.descriptionAccumulator ?? "")
             }
@@ -51,14 +51,14 @@ struct CalculatorBrain {
     private var operations: Dictionary<String,Operation> = [
         "π" : Operation.constant(Double.pi),
         "e" : Operation.constant(M_E),
-        "√" : Operation.unaryOperation(sqrt, {"√(" + $0 + ")"}),  // {"√(" + $0 + ")"}
-        "%" : Operation.binaryOperations({($0 / $1) * 100}, {$0 + " % " + $1}), // {$0 + " % " + $1}
+        "√" : Operation.unaryOperation(sqrt, {"√(" + $0 + ")"}),
+        "%" : Operation.binaryOperations({($0 / $1) * 100}, {$0 + " % " + $1}),
         "cos" : Operation.unaryOperation(cos, {"cos(" + $0 + ")"}), // {"cos(" + $0 + ")"}
         "sin" : Operation.unaryOperation(sin, {"sin(" + $0 + ")"}),
         "tan" : Operation.unaryOperation(tan, {"tan(" + $0 + ")"}),
         "ln" : Operation.unaryOperation(log, {"ln(" + $0 + ")"}),
-        "±" : Operation.unaryOperation({ -$0 }, {"±(" + $0 + ")"}),  // {"±(" + $0 + ")"}
-        "×" : Operation.binaryOperations(*, {$0 + " x " + $1}), // {$0 + " x " + $1}
+        "±" : Operation.unaryOperation({ -$0 }, {"±(" + $0 + ")"}),  // {"±(" + $0 + ")"})
+        "×" : Operation.binaryOperations(*, {"(" + $0 + ")x" + $1}), // {"(" + $0 + ")x" + $1}
         "÷" : Operation.binaryOperations(/, {$0 + " ÷ " + $1}),
         "+" : Operation.binaryOperations(+, {$0 + " + " + $1}),
         "−" : Operation.binaryOperations(-, {$0 + " - " + $1}), // {$0 + " - " + $1}
@@ -87,34 +87,34 @@ struct CalculatorBrain {
         if let operation = operations[symbol] {
             switch operation {
             
-            case .nullOperation(let function, let description):
+            case .nullOperation(let function, let descriptionFunction):
                 cashe.accumulator = function()
-                cashe.descriptionAccumulator = description
+                cashe.descriptionAccumulator = descriptionFunction
                 
             case .constant(let value):
                 cashe.accumulator = value
                 cashe.descriptionAccumulator = symbol
                 
-            case .unaryOperation(let function, var description):
+            case .unaryOperation(let function, var descriptionFunction):
                 if cashe.accumulator != nil {
                     cashe.accumulator = function(cashe.accumulator!)
                     if description == nil {
-                        description = {symbol + "(" + $0 + ")"}
+                        descriptionFunction = {symbol + "(" + $0 + ")"}
                     }
-                    cashe.descriptionAccumulator = description!(cashe.descriptionAccumulator!)
+                    cashe.descriptionAccumulator = descriptionFunction!(cashe.descriptionAccumulator!)
                 }
                 
-            case .binaryOperations(let function, var description):
+            case .binaryOperations(let function, var descriptionFunction):
                 performPendingBinaryOperation()
                 if cashe.accumulator != nil  {
                     if description == nil {
-                        description = {$0 + " " + symbol + " " + $1}
+                        descriptionFunction = {$0 + " " + symbol + " " + $1}
                     }
                 
                     pendingBinaryOperation = PendingBinaryOperation(
                         function: function,
                         firstOperand: cashe.accumulator!,
-                        descriptionFunc: description!,
+                        descriptionFunction: descriptionFunction!,
                         descriptionOperand: cashe.descriptionAccumulator!)
                     
                     cashe.accumulator = nil
@@ -141,7 +141,7 @@ struct CalculatorBrain {
         let function: (Double, Double) -> Double
         let firstOperand: Double
         
-        var descriptionFunc: (String, String) -> String
+        var descriptionFunction: (String, String) -> String
         var descriptionOperand: String
         
         func perform(with secondOperand: Double) -> Double {
@@ -149,7 +149,7 @@ struct CalculatorBrain {
         }
         
         func performDescription(with secondOperand: String) -> String {
-            return descriptionFunc(descriptionOperand, secondOperand)
+            return descriptionFunction(descriptionOperand, secondOperand)
         }
     }
 }
