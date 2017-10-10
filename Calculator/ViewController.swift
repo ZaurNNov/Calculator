@@ -55,8 +55,6 @@ class ViewController: UIViewController
             userIsInTheMiddleOfTyping = true
         }
     }
-    
-    
 
 }
 
