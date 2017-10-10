@@ -11,6 +11,30 @@ import Foundation
 
 struct CalculatorBrain {
     
+    //MARK: Struct for history operations
+    
+    private enum OperationsEnumerating {
+        case operand(Double)
+        case operation(String)
+        case variable(String)
+    }
+    
+    private var historyProgram = [OperationsEnumerating]()
+    
+    mutating func setOperand(_ operand: Double) {
+        historyProgram.append(
+            OperationsEnumerating.operand(operand))
+    }
+
+    mutating func setOperand(_ opetation: String) {
+        historyProgram.append(
+            OperationsEnumerating.operation(opetation))
+    }
+
+    mutating func setOperand(variable name: String) {
+        historyProgram.append(OperationsEnumerating.variable(name))
+    }
+    
     //MARK: Variables
     
     private var pendingBinaryOperation : PendingBinaryOperation?
@@ -75,7 +99,7 @@ struct CalculatorBrain {
         cashe.descriptionAccumulator = " "
     }
     
-    mutating func setOperand(_ operand: Double) {
+    mutating func setOperands(_ operand: Double) {
         cashe.accumulator = operand
         if let value = cashe.accumulator {
             cashe.descriptionAccumulator = formatter.string(from: NSNumber(value: value)) ?? ""

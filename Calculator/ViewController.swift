@@ -18,7 +18,7 @@ class ViewController: UIViewController
         
         if userIsInTheMiddleOfTyping {
             if let value = displayValue {
-              brain.setOperand(value)
+              brain.setOperands(value)
             }
             userIsInTheMiddleOfTyping = false
         }
