@@ -11,6 +11,8 @@ import Foundation
 
 struct CalculatorBrain {
     
+    //MARK: Variables
+    
     private var pendingBinaryOperation : PendingBinaryOperation?
     private var cashe: (accumulator: Double?, descriptionAccumulator : String?)
     
@@ -29,13 +31,6 @@ struct CalculatorBrain {
                     pendingBinaryOperation!.descriptionOperand,
                     cashe.descriptionAccumulator ?? "")
             }
-        }
-    }
-    
-    mutating func setOperand(_ operand: Double) {
-        cashe.accumulator = operand
-        if let value = cashe.accumulator {
-            cashe.descriptionAccumulator = formatter.string(from: NSNumber(value: value)) ?? ""
         }
     }
     
@@ -69,6 +64,22 @@ struct CalculatorBrain {
         "=" : Operation.equals
     ]
     
+    //MARK: Mutating Functions
+    
+    // clear all
+    mutating func clear() {
+        cashe.accumulator = nil
+        pendingBinaryOperation = nil
+        cashe.descriptionAccumulator = " "
+    }
+    
+    mutating func setOperand(_ operand: Double) {
+        cashe.accumulator = operand
+        if let value = cashe.accumulator {
+            cashe.descriptionAccumulator = formatter.string(from: NSNumber(value: value)) ?? ""
+        }
+    }
+
     mutating func performOperation(_ symbol: String)
     {
         if let operation = operations[symbol] {

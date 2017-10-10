@@ -46,6 +46,12 @@ class ViewController: UIViewController
         }
     }
     
+    @IBAction func clear(_ sender: UIButton) {
+        brain.clear()
+        descriptionDisplay.text = " "
+        displayValue = 0
+    }
+    
     //MARK: Variables
     private var brain = CalculatorBrain()
     var userIsInTheMiddleOfTyping = false
