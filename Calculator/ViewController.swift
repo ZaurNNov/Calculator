@@ -52,6 +52,15 @@ class ViewController: UIViewController
         displayValue = 0
     }
     
+    @IBAction func backspace(_ sender: UIButton) {
+        guard userIsInTheMiddleOfTyping && !display.text!.isEmpty else {return}
+        
+        display.text = String(display.text!.characters.dropLast())
+        if display.text!.isEmpty {
+            displayValue = 0
+        }
+    }
+    
     //MARK: Variables
     private var brain = CalculatorBrain()
     var userIsInTheMiddleOfTyping = false
