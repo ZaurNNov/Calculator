@@ -45,13 +45,14 @@ struct CalculatorBrain {
         case unaryOperation((Double) -> Double, ((String) -> String)?)
         case binaryOperations((Double, Double) -> Double, ((String, String) -> String)?)
         case equals
+        case nullOperation (() -> Double, String)
     }
     
     private var operations: Dictionary<String,Operation> = [
         "π" : Operation.constant(Double.pi),
         "e" : Operation.constant(M_E),
         "√" : Operation.unaryOperation(sqrt, {"√(" + $0 + ")"}),  // {"√(" + $0 + ")"}
-        //"%" : Operation
+        "%" : Operation.binaryOperations({($0 / $1) * 100}, {$0 + " % " + $1}), // {$0 + " % " + $1}
         "cos" : Operation.unaryOperation(cos, {"cos(" + $0 + ")"}), // {"cos(" + $0 + ")"}
         "sin" : Operation.unaryOperation(sin, {"sin(" + $0 + ")"}),
         "tan" : Operation.unaryOperation(tan, {"tan(" + $0 + ")"}),
@@ -61,7 +62,8 @@ struct CalculatorBrain {
         "÷" : Operation.binaryOperations(/, {$0 + " ÷ " + $1}),
         "+" : Operation.binaryOperations(+, {$0 + " + " + $1}),
         "−" : Operation.binaryOperations(-, {$0 + " - " + $1}), // {$0 + " - " + $1}
-        "=" : Operation.equals
+        "=" : Operation.equals,
+        "Rand" : Operation.nullOperation({Double(arc4random())/Double(UInt32.max)}, "Rand()")
     ]
     
     //MARK: Mutating Functions
@@ -85,6 +87,10 @@ struct CalculatorBrain {
         if let operation = operations[symbol] {
             switch operation {
             
+            case .nullOperation(let function, let description):
+                cashe.accumulator = function()
+                cashe.descriptionAccumulator = description
+                
             case .constant(let value):
                 cashe.accumulator = value
                 cashe.descriptionAccumulator = symbol
