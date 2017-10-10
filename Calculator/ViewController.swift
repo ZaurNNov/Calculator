@@ -10,16 +10,16 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    
-    private var brain = CalculatorBrain()
-    
+    //MARK: Actions and Outlets
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var descriptionDisplay: UILabel!
     
     @IBAction func performOperation(_ sender: UIButton) {
         
         if userIsInTheMiddleOfTyping {
-            brain.setOperand(displayValue)
+            if let value = displayValue {
+              brain.setOperand(value)
+            }
             userIsInTheMiddleOfTyping = false
         }
         
@@ -27,20 +27,7 @@ class ViewController: UIViewController
             brain.performOperation(mathematicalSymbol)
         }
         
-        if let result = brain.result {
-            displayValue = result
-        }
-    }
-    
-    var userIsInTheMiddleOfTyping = false
-    
-    var displayValue: Double {
-        get {
-            return Double(display.text!)!
-        }
-        set {
-            display.text = String(newValue)
-        }
+        displayValue = brain.result
     }
     
     @IBAction func touchDigit(_ sender: UIButton) {
@@ -56,6 +43,25 @@ class ViewController: UIViewController
         } else {
             display.text = digital
             userIsInTheMiddleOfTyping = true
+        }
+    }
+    
+    //MARK: Variables
+    private var brain = CalculatorBrain()
+    var userIsInTheMiddleOfTyping = false
+    
+    var displayValue: Double? {
+        get {
+            if let text = display.text, let value = Double(text){
+                return value
+            }
+            return nil
+        }
+        set {
+            if let value = newValue {
+                display.text = formatter.string(from: NSNumber(value: value))
+            }
+            descriptionDisplay.text = brain.description! + (brain.resultIsPending ? " ..." : " =")
         }
     }
 
