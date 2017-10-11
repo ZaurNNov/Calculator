@@ -14,6 +14,9 @@ class ViewController: UIViewController
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var descriptionDisplay: UILabel!
     
+    //display for M -variables
+    @IBOutlet weak var displayM: UILabel!
+    
     @IBAction func performOperation(_ sender: UIButton) {
         
         if userIsInTheMiddleOfTyping {
