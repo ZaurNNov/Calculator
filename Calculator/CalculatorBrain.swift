@@ -99,6 +99,11 @@ struct CalculatorBrain {
         cashe.descriptionAccumulator = " "
     }
     
+    //undo
+    mutating func undo() {
+        
+    }
+    
     mutating func setOperands(_ operand: Double) {
         cashe.accumulator = operand
         if let value = cashe.accumulator {

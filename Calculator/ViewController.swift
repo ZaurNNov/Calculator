@@ -50,17 +50,25 @@ class ViewController: UIViewController
     }
     
     @IBAction func clear(_ sender: UIButton) {
+        userIsInTheMiddleOfTyping = false
         brain.clear()
-        descriptionDisplay.text = " "
+        variableValues = [:] //full clean
         displayValue = 0
+        descriptionDisplay.text = " "
     }
     
     @IBAction func backspace(_ sender: UIButton) {
         guard userIsInTheMiddleOfTyping && !display.text!.isEmpty else {return}
         
         display.text = String(display.text!.characters.dropLast())
+        
         if display.text!.isEmpty {
             displayValue = 0
+            userIsInTheMiddleOfTyping = false
+            //descriptionDisplay = brain...
+        } else {
+            brain.undo()
+            //descriptionDisplay = brain....
         }
     }
     
@@ -70,11 +78,13 @@ class ViewController: UIViewController
         let symbol = String((sender.currentTitle!).characters.dropFirst())
         
         variableValues[symbol] = displayValue
+        //displayValue = brain....
     }
     
     // M - button
     @IBAction func pushM(_ sender: UIButton) {
         brain.setOperand(variable: sender.currentTitle!)
+        //displayValue = brain...
     }
     
     //MARK: Variables
