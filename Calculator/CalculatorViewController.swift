@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalculatorViewController.swift
 //  Calculator
 //
 //  Created by User on 05.10.2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController
+class CalculatorViewController: UIViewController
 {
     //MARK: Actions and Outlets
     @IBOutlet weak var display: UILabel!
