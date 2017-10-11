@@ -61,14 +61,25 @@ class ViewController: UIViewController
         }
     }
     
+    // →M - button
     @IBAction func setForM(_ sender: UIButton) {
+        userIsInTheMiddleOfTyping = false
+        let symbol = String((sender.currentTitle!).characters.dropFirst())
+        
+        variableValues[symbol] = displayValue
     }
     
+    // M - button
     @IBAction func pushM(_ sender: UIButton) {
+        brain.setOperand(variable: sender.currentTitle!)
     }
     
     //MARK: Variables
     private var brain = CalculatorBrain()
+    
+    //for memory current state value from display
+    private var variableValues = [String: Double]()
+    
     var userIsInTheMiddleOfTyping = false
     
     var displayValue: Double? {
