@@ -61,6 +61,12 @@ class ViewController: UIViewController
         }
     }
     
+    @IBAction func setForM(_ sender: UIButton) {
+    }
+    
+    @IBAction func pushM(_ sender: UIButton) {
+    }
+    
     //MARK: Variables
     private var brain = CalculatorBrain()
     var userIsInTheMiddleOfTyping = false
