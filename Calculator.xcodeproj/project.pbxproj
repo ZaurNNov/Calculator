@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20E5E1E31F90538C00631DCE /* AxesDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5E1E21F90538C00631DCE /* AxesDrawer.swift */; };
 		CE4899071F86183C00C7028F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4899061F86183C00C7028F /* AppDelegate.swift */; };
 		CE4899091F86183C00C7028F /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4899081F86183C00C7028F /* CalculatorViewController.swift */; };
 		CE48990C1F86183C00C7028F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE48990A1F86183C00C7028F /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		20E5E1E21F90538C00631DCE /* AxesDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxesDrawer.swift; sourceTree = "<group>"; };
 		CE4899031F86183C00C7028F /* Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE4899061F86183C00C7028F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE4899081F86183C00C7028F /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 		CE4899051F86183C00C7028F /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
+				20E5E1E21F90538C00631DCE /* AxesDrawer.swift */,
 				CE4899191F864F4E00C7028F /* CalculatorBrain.swift */,
 				CE48990A1F86183C00C7028F /* Main.storyboard */,
 				CE4899081F86183C00C7028F /* CalculatorViewController.swift */,
@@ -150,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE48991A1F864F4F00C7028F /* CalculatorBrain.swift in Sources */,
+				20E5E1E31F90538C00631DCE /* AxesDrawer.swift in Sources */,
 				CE4899091F86183C00C7028F /* CalculatorViewController.swift in Sources */,
 				CE4899071F86183C00C7028F /* AppDelegate.swift in Sources */,
 			);
