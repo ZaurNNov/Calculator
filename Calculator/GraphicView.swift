@@ -44,7 +44,11 @@ class GraphicView: UIView {
         var x, y : Double
         var isFirstPoint = true
         
-        
+        //graphing discontinuous points
+        var oldYGraph: CGFloat = 0.0
+        var disContinue: Bool {
+            return abs(yGraph - oldYGraph) > max(bounds.width, bounds.height) * 1.5
+        }
         
         if yForX != nil {
             color.set()
@@ -64,6 +68,9 @@ class GraphicView: UIView {
                     path.move(to: CGPoint(x: xGraph, y: yGraph))
                     isFirstPoint = false
                 } else {
+                    if disContinue {
+                        isFirstPoint = true
+                    }
                     path.addLine(to: CGPoint(x: xGraph, y: yGraph))
                 }
             }
