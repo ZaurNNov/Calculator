@@ -14,9 +14,16 @@ class GraphicView: UIView {
     var yForX: ((Double) -> Double)? {didSet {setNeedsDisplay()}}
     
     //parameters for graph
+    @IBInspectable
     var scale: CGFloat = 50.0  {didSet {setNeedsDisplay()}}
+    
+    @IBInspectable
     var lineWidth: CGFloat = 2.0 {didSet {setNeedsDisplay()}}
+    
+    @IBInspectable
     var color: UIColor = UIColor.cyan {didSet {setNeedsDisplay()}}
+    
+    @IBInspectable
     var colorAxes: UIColor = UIColor.brown {didSet {setNeedsDisplay()}}
     
     //dot in center
