@@ -14,6 +14,23 @@ class GraphicViewController: UIViewController {
     var yForX: ((Double) -> Double)? {didSet{updateUI()}}
     
     @IBOutlet weak var graphicView: GraphicView!
+    {
+        didSet {
+            let pinchGesture = UIPinchGestureRecognizer(target: graphicView, action: #selector(GraphicView.scale(_:)))
+            graphicView.addGestureRecognizer(pinchGesture)
+            
+            let panGesture = UIPanGestureRecognizer(target: graphicView, action: #selector(GraphicView.originMove(_:)))
+            graphicView.addGestureRecognizer(panGesture)
+            
+            let tapGesture = UITapGestureRecognizer(target: graphicView, action: #selector(GraphicView.origin(_:)))
+            tapGesture.numberOfTapsRequired = 2 //double tap
+            graphicView.addGestureRecognizer(tapGesture)
+            
+            updateUI()
+        }
+    }
+    
+
     
     func updateUI() {
         graphicView.yForX = yForX

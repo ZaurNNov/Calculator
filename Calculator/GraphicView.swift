@@ -85,6 +85,39 @@ class GraphicView: UIView {
         }
     }
     
+    //Pinch func (scale)
+    @objc
+    func scale(_ gesture: UIPinchGestureRecognizer) {
+        if gesture.state == .changed {
+            gesture.scale = 1.0
+            scale *= gesture.scale
+        }
+    }
+    
+    //PanGesture func (moove graph)
+    @objc
+    func originMove(_ gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .ended: fallthrough
+        case .changed:
+            let translation = gesture.translation(in: self)
+            if translation != CGPoint.zero {
+                origin.x += translation.x
+                origin.y += translation.y
+                gesture.setTranslation(CGPoint.zero, in: self)
+            }
+        default: break
+        }
+    }
+    
+    //TapGesture
+    @objc
+    func origin(_ gesture: UITapGestureRecognizer) {
+        if gesture.state == .ended {
+            origin = gesture.location(in: self)
+        }
+    }
+    
     
  
 
