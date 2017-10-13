@@ -10,18 +10,18 @@ import UIKit
 
 class GraphicViewController: UIViewController {
 
+    //model test y = f(x)
+    var yForX: ((Double) -> Double)? {didSet{updateUI()}}
+    
     @IBOutlet weak var graphicView: GraphicView!
     
+    func updateUI() {
+        graphicView.yForX = yForX
+    }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        super .viewDidLoad()
+        yForX = {cos(1 / ($0 + 2)) * $0}
     }
     
 
