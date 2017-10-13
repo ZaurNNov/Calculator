@@ -18,8 +18,18 @@ class CalculatorViewController: UIViewController
     //display for M -variables
     @IBOutlet weak var displayM: UILabel!
     
-    @IBAction func performOperation(_ sender: UIButton) {
-        
+    //variable button (.isEnabled on/off)
+    @IBOutlet weak var graphVariableButton: UIButton!
+    {
+        didSet {
+            graphVariableButton.isEnabled = false
+            graphVariableButton.backgroundColor = UIColor.lightGray
+        }
+    }
+    
+    
+    @IBAction func performOperation(_ sender: UIButton)
+    {
         if userIsInTheMiddleOfTyping {
             if let value = displayValue {
               brain.setOperands(value)
@@ -33,7 +43,8 @@ class CalculatorViewController: UIViewController
         displayResult = brain.evaluate(using: variableValues)
     }
     
-    @IBAction func touchDigit(_ sender: UIButton) {
+    @IBAction func touchDigit(_ sender: UIButton)
+    {
         let digital = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
@@ -109,6 +120,10 @@ class CalculatorViewController: UIViewController
         
         // Наблюдатель Свойства модифицирует три IBOutlet метки
         didSet {
+            //block for variable button
+            graphVariableButton.isEnabled = !displayResult.isPending
+            graphVariableButton.backgroundColor = displayResult.isPending ? UIColor.lightGray : UIColor.white
+            
             switch displayResult {
             case (nil, _, " ", nil) : displayValue = 0
             case (let result, _, _, nil): displayValue = result
@@ -121,6 +136,56 @@ class CalculatorViewController: UIViewController
             displayM.text = formatter.string(from: NSNumber(value:variableValues["M"] ?? 0))
         }
     }
+    
+    private struct segueIdentifiles
+    {
+        static let GraphButtonSegue = "GraphButtonSegue"
+    }
+    
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var destination = segue.destination
+        
+        if let navigationController = destination as? UINavigationController {
+            destination = navigationController.visibleViewController ?? destination
+        }
+        
+        if let id = segue.identifier ,
+            id == segueIdentifiles.GraphButtonSegue ,
+            let vc = destination as? GraphicViewController {
+                prepareGraphicViewController(vc)
+        }
+    }
+    
+    func prepareGraphicViewController(_ vc: GraphicViewController) {
+        vc.yForX = {
+            [weak weakSelf = self] x in
+            weakSelf?.variableValues["M"] = x
+            return (weakSelf?.brain.evaluate(using: weakSelf?.variableValues).result)!
+        }
+        vc.navigationItem.title = "y = " + brain.evaluate(using: variableValues).description
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == segueIdentifiles.GraphButtonSegue {
+            let result = brain.evaluate()
+            return result.isPending
+        }
+        return false
+    }
+    
+
+    
+}
+
+//if viewController as navigationController
+extension UIViewController {
+    var contetViewController: UIViewController {
+        if let navigationController = self as? UINavigationController {
+            return navigationController.visibleViewController ?? self
+        } else {
+            return self
+        }
+    }
 }
 

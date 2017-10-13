@@ -110,6 +110,9 @@
                                                         <state key="normal" title="📐">
                                                             <color key="titleColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <segue destination="E1v-Xu-r9A" kind="showDetail" identifier="GraphButtonSegue" id="Q4B-XZ-tCu"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -432,6 +435,7 @@
                         <outlet property="descriptionDisplay" destination="AqW-tH-D2F" id="K6o-eR-Iyg"/>
                         <outlet property="display" destination="oKr-ae-fqs" id="deC-oY-0Di"/>
                         <outlet property="displayM" destination="Lyv-mR-XnP" id="EcB-zG-xYw"/>
+                        <outlet property="graphVariableButton" destination="Su1-wZ-n4l" id="bSK-qw-l1v"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -533,4 +537,7 @@
             <point key="canvasLocation" x="-1471" y="15"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Q4B-XZ-tCu"/>
+    </inferredMetricsTieBreakers>
 </document>

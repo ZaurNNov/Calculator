@@ -34,6 +34,7 @@ class GraphicViewController: UIViewController {
         graphicView.yForX = yForX
     }
     
+       
     override func viewDidLoad() {
         super .viewDidLoad()
         yForX = {$0 * cos((1 / $0) * 8)}
