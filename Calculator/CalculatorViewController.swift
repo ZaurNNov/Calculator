@@ -12,7 +12,6 @@ class CalculatorViewController: UIViewController
 {
     //MARK: Actions and Outlets
     @IBOutlet weak var display: UILabel!
-    //history:
     @IBOutlet weak var descriptionDisplay: UILabel!
     
     //display for M -variables
