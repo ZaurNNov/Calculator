@@ -196,7 +196,28 @@ class CalculatorViewController: UIViewController
             userDefaults.set(newValue, forKey: userDefaultsKey.Programm)
         }
     }
-
+    
+    //if reload app - save state value in local and userDefaults folder
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let saveProgramm = programm as? [Any] {
+            brain.programm = saveProgramm as PropertyList
+            displayResult = brain.evaluate(using: variableValues)
+            
+            if let gVC = splitViewController?.viewControllers.last?.contetViewController as? GraphicViewController {
+                prepareGraphicViewController(gVC)
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if !brain.evaluate(using: variableValues).isPending {
+            programm = brain.programm
+        }
+    }
     
 }
 

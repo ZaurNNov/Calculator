@@ -105,6 +105,47 @@ struct CalculatorBrain {
         }
     }
     
+    // MARK: Property list
+    // for save state in userDefaults folde(from CalculatorViewController)
+    // someDataObject type
+    typealias PropertyList = AnyObject
+    
+    // get & set for someDataObject from userDefaults folder
+    var programm: PropertyList {
+        get {
+            var propertyListProgramm = [Any]()
+            for operationsList in historyProgram {
+                //substituting the value for the "Any" value
+                switch operationsList {
+                case .operand(let operand): propertyListProgramm.append(operand as Any)
+                case .operation(let symbol): propertyListProgramm.append(symbol as Any)
+                case .variable(let named): propertyListProgramm.append(named as Any)
+                }
+            }
+            return propertyListProgramm as PropertyList
+        }
+        set {
+            clear()
+            if let arrayOfAny = newValue as? [Any] {
+                for operationsList in arrayOfAny {
+                    //inverse value from "Any" to specified type value
+                    if let operand = operationsList as? Double {
+                        historyProgram.append(OperationsEnumerating.operand(operand))
+                    } else if let symbol = operationsList as? String {
+                        if operations[symbol] != nil {
+                            // symbol - operation
+                            historyProgram.append(OperationsEnumerating.operation(symbol))
+                        } else {
+                            // symbol - variable
+                            historyProgram.append(OperationsEnumerating.variable(symbol))
+                        }
+                    }
+                }
+            }
+        }
+    }
+        
+    
     // MARK: - evaluate (new struct)
     //--------------------------------------------
     
