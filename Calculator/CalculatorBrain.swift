@@ -45,9 +45,16 @@ struct CalculatorBrain {
     
     private enum Operation {
         case constant(Double)
-        case unaryOperation ((Double) -> Double,((String) -> String)?, ((Double) -> String?)?)
-        case binaryOperations ((Double, Double) -> Double, ((String, String) -> String)?,
+        case unaryOperation (
+            (Double) -> Double,
+            ((String) -> String)?,
+            ((Double) -> String?)?)
+        
+        case binaryOperations (
+            (Double, Double) -> Double,
+            ((String, String) -> String)?,
             ((Double, Double) -> String?)?, Int)
+        
         case equals
         case nullOperation (() -> Double, String)
     }
@@ -67,7 +74,7 @@ struct CalculatorBrain {
         "+" : Operation.binaryOperations(+, nil, nil, 0), // {$0 + " + " + $1}),
         "−" : Operation.binaryOperations(-, nil, nil, 0), // {$0 + " - " + $1}), // {$0 + " - " + $1}
         "=" : Operation.equals,
-        "Rand" : Operation.nullOperation({Double(arc4random())/Double(UInt32.max)}, "Rand()")
+        //"Rand" : Operation.nullOperation({Double(arc4random())/Double(UInt32.max)}, "Rand()")
     ]
     
     struct PendingBinaryOperation {
@@ -86,21 +93,16 @@ struct CalculatorBrain {
         }
         
         func performDescription(with secondOperand: String) -> String {
-            
             var descriptionNewOperand = descriptionOperand
             
             if prevPrecedence < precedence {
                 descriptionNewOperand = "(" + descriptionNewOperand + ")"
             }
-            
-            return descriptionFunction(descriptionOperand, secondOperand)
+            return descriptionFunction(descriptionNewOperand, secondOperand)
         }
         
         func validate (with secondOperand: Double) -> String? {
-            guard let validator = validator else {
-                return nil
-            }
-            
+            guard let validator = validator else {return nil}
             return validator(firstOperand, secondOperand)
         }
     }
@@ -117,9 +119,12 @@ struct CalculatorBrain {
             for operationsList in historyProgram {
                 //substituting the value for the "Any" value
                 switch operationsList {
-                case .operand(let operand): propertyListProgramm.append(operand as Any)
-                case .operation(let symbol): propertyListProgramm.append(symbol as Any)
-                case .variable(let named): propertyListProgramm.append(named as Any)
+                case .operand(let operand):
+                    propertyListProgramm.append(operand as Any)
+                case .operation(let symbol):
+                    propertyListProgramm.append(symbol as Any)
+                case .variable(let named):
+                    propertyListProgramm.append(named as Any)
                 }
             }
             return propertyListProgramm as PropertyList
@@ -130,21 +135,23 @@ struct CalculatorBrain {
                 for operationsList in arrayOfAny {
                     //inverse value from "Any" to specified type value
                     if let operand = operationsList as? Double {
-                        historyProgram.append(OperationsEnumerating.operand(operand))
+                        historyProgram.append(
+                            OperationsEnumerating.operand(operand))
                     } else if let symbol = operationsList as? String {
                         if operations[symbol] != nil {
                             // symbol - operation
-                            historyProgram.append(OperationsEnumerating.operation(symbol))
+                            historyProgram.append(
+                                OperationsEnumerating.operation(symbol))
                         } else {
                             // symbol - variable
-                            historyProgram.append(OperationsEnumerating.variable(symbol))
+                            historyProgram.append(
+                                OperationsEnumerating.variable(symbol))
                         }
                     }
                 }
             }
         }
     }
-        
     
     // MARK: - evaluate (new struct)
     //--------------------------------------------
@@ -206,7 +213,9 @@ struct CalculatorBrain {
                     switch operation {
                     case .nullOperation(let function, let descriptionFunction):
                         cashe = (function(),descriptionFunction)
+                    
                     case .constant(let value): cashe = (value, symbol)
+                    
                     case .unaryOperation(let function, var descriptionFunction, let validator):
                         if cashe.accumulator != nil {
                             error = validator?(cashe.accumulator!)
@@ -218,6 +227,7 @@ struct CalculatorBrain {
                             
                             cashe.descriptionAccumulator = descriptionFunction!(cashe.descriptionAccumulator!)
                         }
+                    
                     case .binaryOperations(let function, var descriptionFunction, let validator, let precedence):
                         performPendingBinaryOperation()
                         

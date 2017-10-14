@@ -26,7 +26,6 @@ class CalculatorViewController: UIViewController
         }
     }
     
-    
     @IBAction func performOperation(_ sender: UIButton)
     {
         if userIsInTheMiddleOfTyping {
@@ -93,7 +92,6 @@ class CalculatorViewController: UIViewController
     }
     
     //MARK: Variables
-    
     private var brain = CalculatorBrain() // Model
     
     //for memory current state value from display
@@ -132,7 +130,6 @@ class CalculatorViewController: UIViewController
             
             descriptionDisplay.text = displayResult.description != " " ?
                 displayResult.description + (displayResult.isPending ? " …" : " =") : " "
-            
             displayM.text = formatter.string(from: NSNumber(value:variableValues["M"] ?? 0))
         }
     }
@@ -148,7 +145,8 @@ class CalculatorViewController: UIViewController
         var destination = segue.destination
         
         if let navigationController = destination as? UINavigationController {
-            destination = navigationController.visibleViewController ?? destination
+            destination = navigationController.visibleViewController
+                ?? destination
         }
         
         if let id = segue.identifier,
@@ -163,7 +161,7 @@ class CalculatorViewController: UIViewController
             [weak weakSelf = self] x in
             //set x - value (for y=f(x) in graphic)
             weakSelf?.variableValues["M"] = x
-            return (weakSelf?.brain.evaluate(using: weakSelf?.variableValues).result)!
+            return weakSelf?.brain.evaluate(using: weakSelf?.variableValues).result
         }
         vc.navigationItem.title = "y = " + brain.evaluate(using: variableValues).description
     }
@@ -179,7 +177,6 @@ class CalculatorViewController: UIViewController
     // MARK: - User folder for saveState variables
     //------
     private let userDefaults = UserDefaults.standard
-    
     private struct userDefaultsKey {
         static let Programm = "CalculatorViewController.Programm"
     }
@@ -205,12 +202,10 @@ class CalculatorViewController: UIViewController
             brain.programm = saveProgramm as PropertyList
             displayResult = brain.evaluate(using: variableValues)
             
-            /*
              //если апп завершится ошибкой - то поможет полное удаление
             if let gVC = splitViewController?.viewControllers.last?.contetViewController as? GraphicViewController {
                 prepareGraphicViewController(gVC)
             }
-             */
         }
     }
     
@@ -228,9 +223,23 @@ class CalculatorViewController: UIViewController
 extension UIViewController {
     var contetViewController: UIViewController {
         if let navigationController = self as? UINavigationController {
-            return navigationController.visibleViewController ?? self
+            return navigationController.visibleViewController
+                ?? self
         } else {
             return self
         }
+    }
+}
+
+extension CalculatorViewController: UISplitViewControllerDelegate
+{
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.splitViewController?.delegate = self
+    }
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        
+        return true
     }
 }

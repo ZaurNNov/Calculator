@@ -100,27 +100,67 @@ class GraphicView: UIView {
         }
     }
     
-    //Pinch func (scale)
+    private var snapshot: UIView?
+    //Pinch func (scale + snapshot)
     @objc
     func scale(_ gesture: UIPinchGestureRecognizer) {
-        if gesture.state == .changed {
-            scale *= gesture.scale
+        switch gesture.state {
+        case .began:
+            snapshot = self.snapshotView(afterScreenUpdates: false)
+            snapshot!.alpha = 0.8
+            self.addSubview(snapshot!)
+            
+        case .changed:
+            let touch = CGPoint(
+                x:graphCenter.x + originSet.x,
+                y:graphCenter.y + originSet.y)
+            
+            snapshot!.frame.size.height *= gesture.scale
+            snapshot!.frame.size.width *= gesture.scale
+            snapshot!.frame.origin.x = snapshot!.frame.origin.x * gesture.scale +
+                (1 - gesture.scale) * touch.x
+            snapshot!.frame.origin.y = snapshot!.frame.origin.y * gesture.scale +
+                (1 - gesture.scale) * touch.y
             gesture.scale = 1.0
+            
+        case .ended:
+            let changedScale = snapshot!.frame.height / self.frame.height
+            scale *= changedScale
+            
+            snapshot!.removeFromSuperview()
+            snapshot = nil
+            setNeedsDisplay()
+            
+        default: break
         }
     }
     
-    //PanGesture func (moove graph)
+    //PanGesture func (moove graph + snapshot)
     @objc
     func originMove(_ gesture: UIPanGestureRecognizer) {
         switch gesture.state {
-        case .ended: fallthrough
+        case .began:
+            snapshot = self.snapshotView(afterScreenUpdates: false)
+            snapshot!.alpha = 0.6
+            self.addSubview(snapshot!)
+            
         case .changed:
             let translation = gesture.translation(in: self)
             if translation != CGPoint.zero {
-                origin.x += translation.x
-                origin.y += translation.y
+                snapshot!.center.x += translation.x
+                snapshot!.center.y += translation.y
+                
                 gesture.setTranslation(CGPoint.zero, in: self)
             }
+            
+        case .ended:
+            origin.x += snapshot!.frame.origin.x
+            origin.y += snapshot!.frame.origin.y
+            
+            snapshot!.removeFromSuperview()
+            snapshot = nil
+            setNeedsDisplay()
+            
         default: break
         }
     }
@@ -132,8 +172,5 @@ class GraphicView: UIView {
             origin = gesture.location(in: self)
         }
     }
-    
-    
- 
 
 }

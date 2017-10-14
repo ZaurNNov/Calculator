@@ -10,15 +10,17 @@ import UIKit
 
 class GraphicViewController: UIViewController {
 
-    //model test y = f(x)
-    var yForX: ((Double) -> Double)? {didSet{updateUI()}}
+    //model GraphicViewController test y = f(x)
+    var yForX: ((Double) -> Double?)? {didSet{updateUI()}}
+    
     
     @IBOutlet weak var graphicView: GraphicView!
     {
         didSet {
             let pinchGesture = UIPinchGestureRecognizer(target: graphicView, action: #selector(GraphicView.scale(_:)))
             graphicView.addGestureRecognizer(pinchGesture)
-            
+
+
             let panGesture = UIPanGestureRecognizer(target: graphicView, action: #selector(GraphicView.originMove(_:)))
             graphicView.addGestureRecognizer(panGesture)
             
@@ -36,14 +38,6 @@ class GraphicViewController: UIViewController {
     func updateUI() {
         graphicView?.yForX = yForX
     }
-
-    /**
-     if first load -> Graph y=sin(x)
-    override func viewDidLoad() {
-        super .viewDidLoad()
-        yForX = {sin($0)}
-    }
-    */
     
     // MARK: - User folder for saveState variables
     //------
@@ -73,8 +67,9 @@ class GraphicViewController: UIViewController {
     private var originCenter: CGPoint {
         get {
             //defaults new, or GraphicView variable value
-            return CGPoint (x: factor[0] * graphicView.bounds.size.width,
-                            y: factor[1] * graphicView.bounds.size.height)
+            return CGPoint (
+                x: factor[0] * graphicView.bounds.size.width,
+                y: factor[1] * graphicView.bounds.size.height)
         }
         set {
             factor = [newValue.x / graphicView.bounds.size.width,
@@ -105,6 +100,4 @@ class GraphicViewController: UIViewController {
             graphicView.originSet = originCenter
         }
     }
-    
-    
 }
