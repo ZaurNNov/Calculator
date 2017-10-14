@@ -34,7 +34,7 @@ class GraphicViewController: UIViewController {
     }
     
     func updateUI() {
-        graphicView.yForX = yForX
+        graphicView?.yForX = yForX
     }
 
     /**

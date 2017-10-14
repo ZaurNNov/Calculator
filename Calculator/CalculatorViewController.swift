@@ -93,7 +93,8 @@ class CalculatorViewController: UIViewController
     }
     
     //MARK: Variables
-    private var brain = CalculatorBrain()
+    
+    private var brain = CalculatorBrain() // Model
     
     //for memory current state value from display
     private var variableValues = [String: Double]()
@@ -136,11 +137,12 @@ class CalculatorViewController: UIViewController
         }
     }
     
+    // Segue for "Graphic build" button
+    //------
     private struct segueIdentifiles
     {
         static let GraphButtonSegue = "GraphButtonSegue"
     }
-    
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         var destination = segue.destination
@@ -149,16 +151,17 @@ class CalculatorViewController: UIViewController
             destination = navigationController.visibleViewController ?? destination
         }
         
-        if let id = segue.identifier ,
-            id == segueIdentifiles.GraphButtonSegue ,
+        if let id = segue.identifier,
+            id == segueIdentifiles.GraphButtonSegue,
             let vc = destination as? GraphicViewController {
                 prepareGraphicViewController(vc)
         }
     }
     
-    func prepareGraphicViewController(_ vc: GraphicViewController) {
+    private func prepareGraphicViewController(_ vc: GraphicViewController) {
         vc.yForX = {
             [weak weakSelf = self] x in
+            //set x - value (for y=f(x) in graphic)
             weakSelf?.variableValues["M"] = x
             return (weakSelf?.brain.evaluate(using: weakSelf?.variableValues).result)!
         }
@@ -168,11 +171,31 @@ class CalculatorViewController: UIViewController
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == segueIdentifiles.GraphButtonSegue {
             let result = brain.evaluate()
-            return result.isPending
+            return !result.isPending
         }
         return false
     }
     
+    // MARK: - User folder for saveState variables
+    //------
+    private let userDefaults = UserDefaults.standard
+    
+    private struct userDefaultsKey {
+        static let Programm = "CalculatorViewController.Programm"
+    }
+    
+    // someDataObject type
+    typealias PropertyList = AnyObject
+    
+    // get & set for someDataObject from userDefaults folder
+    private var programm: PropertyList? {
+        get {
+            return userDefaults.object(forKey: userDefaultsKey.Programm) as PropertyList?
+        }
+        set {
+            userDefaults.set(newValue, forKey: userDefaultsKey.Programm)
+        }
+    }
 
     
 }
