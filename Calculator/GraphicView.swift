@@ -8,32 +8,44 @@
 
 import UIKit
 
+@IBDesignable
 class GraphicView: UIView {
 
     //model test y = f(x)
-    var yForX: ((Double) -> Double)? {didSet {setNeedsDisplay()}}
+    var yForX: ((Double) -> Double?)? {didSet {setNeedsDisplay()}}
     
     //parameters for graph
     @IBInspectable
-    var scale: CGFloat = 50.0  {didSet {setNeedsDisplay()}}
-    
+    var scale: CGFloat = 50.0 {didSet {setNeedsDisplay()}}
     @IBInspectable
     var lineWidth: CGFloat = 2.0 {didSet {setNeedsDisplay()}}
-    
     @IBInspectable
     var color: UIColor = UIColor.cyan {didSet {setNeedsDisplay()}}
-    
     @IBInspectable
     var colorAxes: UIColor = UIColor.brown {didSet {setNeedsDisplay()}}
     
     //dot in center
-    var originSet: CGPoint? {didSet {setNeedsDisplay()}}
+    var originSet = CGPoint.zero {didSet {setNeedsDisplay()}}
+    
+    private var graphCenter: CGPoint {
+        return convert(center, from: superview)
+    }
     
     //dot in center init
     private var origin: CGPoint
     {
-        get {return originSet ?? CGPoint(x: self.bounds.midX, y: self.bounds.midY)}
-        set {originSet = newValue}
+        get {
+            var origin = originSet
+            origin.x += graphCenter.x
+            origin.y += graphCenter.y
+            return origin
+        }
+        set {
+            var origin = originSet
+            origin.x -= graphCenter.x
+            origin.y -= graphCenter.y
+            originSet = origin
+        }
     }
     
     private var axesDrawer = AxesDrawer()
@@ -45,7 +57,8 @@ class GraphicView: UIView {
         drawCurveInRect(bounds, origin: origin, scale: scale)
     }
     
-    func drawCurveInRect(_ bounds: CGRect, origin: CGPoint, scale: CGFloat) {
+    func drawCurveInRect(_ bounds: CGRect, origin: CGPoint, scale: CGFloat)
+    {
         //parametic for line
         var xGraph, yGraph : CGFloat
         var x, y : Double
@@ -62,13 +75,14 @@ class GraphicView: UIView {
             let path = UIBezierPath()
             path.lineWidth = lineWidth
             
-            for i in 0...Int(bounds.size.width * contentScaleFactor) {
-                
+            for i in 0...Int(bounds.size.width * contentScaleFactor)
+            {
                 xGraph = CGFloat(i) / contentScaleFactor
                 x = Double((xGraph - origin.x) / scale)
-                y = (yForX)!(x) //fuction line y = f(x)
                 
-                guard y.isFinite else {continue}
+                guard let y = (yForX)!(x),
+                    y.isFinite else {continue}
+                
                 yGraph = origin.y - CGFloat(y) * scale
                 
                 if isFirstPoint {
@@ -77,8 +91,9 @@ class GraphicView: UIView {
                 } else {
                     if disContinue {
                         isFirstPoint = true
+                    } else {
+                       path.addLine(to: CGPoint(x: xGraph, y: yGraph))
                     }
-                    path.addLine(to: CGPoint(x: xGraph, y: yGraph))
                 }
             }
             path.stroke()
@@ -89,8 +104,8 @@ class GraphicView: UIView {
     @objc
     func scale(_ gesture: UIPinchGestureRecognizer) {
         if gesture.state == .changed {
-            gesture.scale = 1.0
             scale *= gesture.scale
+            gesture.scale = 1.0
         }
     }
     
