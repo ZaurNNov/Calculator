@@ -205,9 +205,12 @@ class CalculatorViewController: UIViewController
             brain.programm = saveProgramm as PropertyList
             displayResult = brain.evaluate(using: variableValues)
             
+            /*
+             //если апп завершится ошибкой - то поможет полное удаление
             if let gVC = splitViewController?.viewControllers.last?.contetViewController as? GraphicViewController {
                 prepareGraphicViewController(gVC)
             }
+             */
         }
     }
     
@@ -231,4 +234,3 @@ extension UIViewController {
         }
     }
 }
-
