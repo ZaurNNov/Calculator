@@ -41,7 +41,7 @@ class GraphicView: UIView {
             return origin
         }
         set {
-            var origin = originSet
+            var origin = newValue
             origin.x -= graphCenter.x
             origin.y -= graphCenter.y
             originSet = origin
