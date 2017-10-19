@@ -8,10 +8,15 @@
 
 import UIKit
 
+// ASSIGNMENT III: 10 graphing view must be @IBDesignable
+// and its scale must be @IBInspectable.
 @IBDesignable
 class GraphicView: UIView {
+    
+    // ASSIGNMENT III: 5 - Graph function
+    //model Graphic calculate for y = f(x)
 
-    //model test y = f(x)
+    //model y = f(x)
     var yForX: ((Double) -> Double?)? {didSet {setNeedsDisplay()}}
     
     //parameters for graph
@@ -31,6 +36,7 @@ class GraphicView: UIView {
         return convert(center, from: superview)
     }
     
+    // ASSIGNMENT III: Extra Credit 6 show the last graph
     //dot in center init
     private var origin: CGPoint
     {
@@ -48,6 +54,7 @@ class GraphicView: UIView {
         }
     }
     
+    // class AxesDrawer created by Instructor.
     private var axesDrawer = AxesDrawer()
     
     override func draw(_ rect: CGRect) {
@@ -70,6 +77,8 @@ class GraphicView: UIView {
             return abs(yGraph - oldYGraph) > max(bounds.width, bounds.height) * 1.5
         }
         
+        
+        // ASSIGNMENT III: 6
         if yForX != nil {
             color.set()
             let path = UIBezierPath()

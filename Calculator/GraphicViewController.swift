@@ -7,19 +7,20 @@
 //
 
 import UIKit
-
+// ASSIGNMENT III: 3 - new mvc for Graph
 class GraphicViewController: UIViewController {
 
     //model GraphicViewController test y = f(x)
     var yForX: ((Double) -> Double?)? {didSet{updateUI()}}
     
-    
+    // ASSIGNMENT III: 5 - Graph function from new class
     @IBOutlet weak var graphicView: GraphicView!
     {
         didSet {
+            // ASSIGNMENT III: 11 Add 3 gestures
+            // Pinching, Panning, Double-tapping 
             let pinchGesture = UIPinchGestureRecognizer(target: graphicView, action: #selector(GraphicView.scale(_:)))
             graphicView.addGestureRecognizer(pinchGesture)
-
 
             let panGesture = UIPanGestureRecognizer(target: graphicView, action: #selector(GraphicView.originMove(_:)))
             graphicView.addGestureRecognizer(panGesture)
@@ -28,6 +29,7 @@ class GraphicViewController: UIViewController {
             tapGesture.numberOfTapsRequired = 2 //double tap
             graphicView.addGestureRecognizer(tapGesture)
             
+            // ASSIGNMENT III: Extra Credit 6 show the last graph
             graphicView.scale = scale
             graphicView.originSet = originCenter
             
@@ -41,6 +43,7 @@ class GraphicViewController: UIViewController {
     
     // MARK: - User folder for saveState variables
     //------
+    // ASSIGNMENT III: Extra Credit 2 - save variables scale & originCenter in UserDefaults.standard app dolder
     private let userDefaults = UserDefaults.standard
     
     private struct userDefaultsKeys {
@@ -77,14 +80,15 @@ class GraphicViewController: UIViewController {
         }
     }
     //------
-    
     //if reload app - save state value in local and userDefaults folder
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        // ASSIGNMENT III: Extra Credit 2 - save variables scale & originCenter in UserDefaults.standard app dolder
         scale = graphicView.scale
         originCenter = graphicView.originSet
     }
     
+    // ASSIGNMENT III: Extra Credit 3 - rotation (or any bounds change)
     //if center != center afler reload app
     private var oldWidth: CGFloat?
     

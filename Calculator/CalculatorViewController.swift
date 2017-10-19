@@ -8,6 +8,8 @@
 
 import UIKit
 
+// ASSIGNMENT III: 2
+//Rename the ViewController class = CalculatorViewController
 class CalculatorViewController: UIViewController
 {
     // ASSIGNMENT I: 4 (Add more color for buttons in UI)
@@ -22,10 +24,12 @@ class CalculatorViewController: UIViewController
     //display for M -variables
     @IBOutlet weak var displayM: UILabel!
     
+    // ASSIGNMENT III: 7
     //variable button (.isEnabled on/off)
     @IBOutlet weak var graphVariableButton: UIButton!
     {
         didSet {
+            // ASSIGNMENT III: Extra Credit 1
             graphVariableButton.isEnabled = false
             graphVariableButton.backgroundColor = UIColor.lightGray
         }
@@ -167,6 +171,7 @@ class CalculatorViewController: UIViewController
         }
     }
     
+    // ASSIGNMENT III: 9
     private func prepareGraphicViewController(_ vc: GraphicViewController) {
         vc.yForX = {
             [weak weakSelf = self] x in
@@ -174,6 +179,7 @@ class CalculatorViewController: UIViewController
             weakSelf?.variableValues["M"] = x
             return weakSelf?.brain.evaluate(using: weakSelf?.variableValues).result
         }
+        // ASSIGNMENT III: 9 - set Graph title as func f(x)
         vc.navigationItem.title = "y = " + brain.evaluate(using: variableValues).description
     }
     
@@ -213,7 +219,6 @@ class CalculatorViewController: UIViewController
             brain.programm = saveProgramm as PropertyList
             displayResult = brain.evaluate(using: variableValues)
             
-             //если апп завершится ошибкой - то поможет полное удаление
             if let gVC = splitViewController?.viewControllers.last?.contetViewController as? GraphicViewController {
                 prepareGraphicViewController(gVC)
             }
