@@ -45,6 +45,9 @@ struct CalculatorBrain {
     
     private enum Operation {
         case constant(Double)
+        // ASSIGNMENT II: Extra Credit 1
+        //function that detects an error ((String) -> String)? and ((Double) -> String?)?
+        
         case unaryOperation (
             (Double) -> Double,
             ((String) -> String)?,
@@ -59,9 +62,12 @@ struct CalculatorBrain {
         case nullOperation (() -> Double, String)
     }
     
+    // ASSIGNMENT I: 3 (Add more buttons in UI)
     private var operations: Dictionary<String,Operation> = [
+        // ASSIGNMENT I: 7
         "π" : Operation.constant(Double.pi),
         "e" : Operation.constant(M_E),
+        // ASSIGNMENT II: Extra Credit 1 (error string)
         "√" : Operation.unaryOperation(sqrt, nil, { $0 < 0 ? "√ отрицательного числа" : nil }),
         "%" : Operation.binaryOperations({($0 / $1) * 100}, nil, nil, 1), //{$0 + " % " + $1}
         "cos" : Operation.unaryOperation(cos, nil, nil), // {"cos(" + $0 + ")"})
@@ -70,10 +76,12 @@ struct CalculatorBrain {
         "ln" : Operation.unaryOperation(log, nil, nil),  // {"ln(" + $0 + ")"}),
         "±" : Operation.unaryOperation({ -$0 }, nil, nil),  // {"±(" + $0 + ")"}),
         "×" : Operation.binaryOperations(*, {"(" + $0 + ") x " + $1}, nil, 1), // {"(" + $0 + ")x" + $1})
+        // ASSIGNMENT II: Extra Credit 1 (error string)
         "÷" : Operation.binaryOperations(/, nil, { $1 == 0.0 ? "Деление на нуль" : nil }, 1),
         "+" : Operation.binaryOperations(+, nil, nil, 0), // {$0 + " + " + $1}),
         "−" : Operation.binaryOperations(-, nil, nil, 0), // {$0 + " - " + $1}), // {$0 + " - " + $1}
         "=" : Operation.equals,
+        // ASSIGNMENT I: Extra Credit 3
         //"Rand" : Operation.nullOperation({Double(arc4random())/Double(UInt32.max)}, "Rand()")
     ]
     
@@ -153,9 +161,11 @@ struct CalculatorBrain {
         }
     }
     
+    // ASSIGNMENT II: 2
     // MARK: - evaluate (new struct)
     //--------------------------------------------
     
+    // ASSIGNMENT II: 4
     func evaluate(using variables: Dictionary<String,Double>? = nil) ->
         (result: Double?, isPending: Bool, description: String, error: String?){
             
@@ -204,7 +214,7 @@ struct CalculatorBrain {
                 prevPrecedence = Int.max
             }
             
-            
+            // ASSIGNMENT II: 3
             func performOperation(_ symbol: String)
             {
                 if let operation = operations[symbol] {
@@ -292,6 +302,7 @@ struct CalculatorBrain {
             //---END - evaluate fuctions
     }
     
+    // ASSIGNMENT II: 5
     //MARK: Not more need (@available) in struct CalculatorBrain
     
     @available(iOS, deprecated, message: "No longer needed")
@@ -301,6 +312,7 @@ struct CalculatorBrain {
         }
     }
     
+    // ASSIGNMENT I: 5
     @available(iOS, deprecated, message: "No longer needed")
     var resultIsPending: Bool {
         get {
@@ -308,6 +320,7 @@ struct CalculatorBrain {
         }
     }
     
+    // ASSIGNMENT I: 6
     @available(iOS, deprecated, message: "No longer needed")
     var description: String {
         get {
@@ -316,6 +329,7 @@ struct CalculatorBrain {
     }
 }
 
+// ASSIGNMENT I: Extra Credit 2
 let formatter : NumberFormatter = {
     let forrmater = NumberFormatter()
     forrmater.locale = Locale.current

@@ -10,10 +10,15 @@ import UIKit
 
 class CalculatorViewController: UIViewController
 {
+    // ASSIGNMENT I: 4 (Add more color for buttons in UI)
+    // ASSIGNMENT II: Extra Credit 2 - app icons
+    // ASSIGNMENT II: Extra Credit 3 - add LaunchScreen
+    
     //MARK: Actions and Outlets
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var descriptionDisplay: UILabel!
     
+    // ASSIGNMENT II: 8
     //display for M -variables
     @IBOutlet weak var displayM: UILabel!
     
@@ -46,6 +51,7 @@ class CalculatorViewController: UIViewController
         let digital = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
+            // ASSIGNMENT I: 2
             if !textCurrentlyInDisplay.contains(".") || (digital != ".") {
                 display.text = textCurrentlyInDisplay + digital
             }
@@ -55,6 +61,7 @@ class CalculatorViewController: UIViewController
         }
     }
     
+    // ASSIGNMENT I: 8
     @IBAction func clear(_ sender: UIButton) {
         userIsInTheMiddleOfTyping = false
         brain.clear()
@@ -62,6 +69,7 @@ class CalculatorViewController: UIViewController
         displayResult = brain.evaluate()
     }
     
+    // ASSIGNMENT I: Extra Credit 1
     @IBAction func backspace(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
             guard userIsInTheMiddleOfTyping && !display.text!.isEmpty else {return}
@@ -71,11 +79,13 @@ class CalculatorViewController: UIViewController
                 displayResult = brain.evaluate(using: variableValues)
             }
         } else {
+            // ASSIGNMENT II: 9
             brain.undo()
             displayResult = brain.evaluate(using: variableValues)
         }
     }
     
+    // ASSIGNMENT II: 7
     // →M - button
     @IBAction func setForM(_ sender: UIButton) {
         userIsInTheMiddleOfTyping = false
@@ -85,6 +95,7 @@ class CalculatorViewController: UIViewController
         displayResult = brain.evaluate(using: variableValues)
     }
     
+    // ASSIGNMENT II: 7
     // M - button
     @IBAction func pushM(_ sender: UIButton) {
         brain.setOperand(variable: sender.currentTitle!)
@@ -116,7 +127,7 @@ class CalculatorViewController: UIViewController
     var displayResult: (result: Double?, isPending: Bool,
         description: String, error: String?) = (nil, false, " ", nil) {
         
-        // Наблюдатель Свойства модифицирует три IBOutlet метки
+        // odserver, modifing 3 IBOutlet labels
         didSet {
             //block for variable button
             graphVariableButton.isEnabled = !displayResult.isPending
